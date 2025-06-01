@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Healthcare Chatbot</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 2rem;
+        background-color: #f0f8ff;
+    }
+    .section {
+        margin-bottom: 2rem;
+    }
+    button, select {
+        padding: 0.5rem 1rem;
+        margin: 0.5rem;
+        font-size: 1rem;
+    }
+    .output {
+        margin-top: 1rem;
+        padding: 1rem;
+        background-color: #e0f7fa;
+        border-radius: 8px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Healthcare Chatbot</h1>
+
+<div class="section">
+    <label for="menu">Choose an option:</label>
+    <select id="menu">
+        <option value="">--Select--</option>
+        <option value="advice">General Health Advice</option>
+        <option value="symptoms">Symptoms Check</option>
+        <option value="appointment">Schedule Appointment</option>
+    </select>
+    <button onclick="handleMenu()">Submit</button>
+</div>
+
+<div id="symptomInput" style="display:none;">
+    <input type="text" id="symptom" placeholder="Enter a symptom (e.g., fever)">
+    <button onclick="checkSymptom()">Check</button>
+</div>
+
+<div id="appointmentForm" style="display:none;">
+    <input type="text" id="userName" placeholder="Your name">
+    <input type="date" id="appointmentDate">
+    <input type="text" id="specialist" placeholder="Specialist name">
+    <button onclick="bookAppointment()">Book</button>
+</div>
+
+<div class="output" id="output"></div>
+
+<script>
+    function handleMenu() {
+        const choice = document.getElementById('menu').value;
+        const output = document.getElementById('output');
+        document.getElementById('symptomInput').style.display = "none";
+        document.getElementById('appointmentForm').style.display = "none";
+
+    if (choice === 'advice') {
+        output.innerHTML = `
+            <strong>General Health Advice:</strong><br>
+            - Eat a balanced diet.<br>
+            - Exercise regularly.<br>
+            - Get enough sleep (7-8 hours).<br>
+            - Stay hydrated by drinking plenty of water.
+        `;
+    } else if (choice === 'symptoms') {
+        document.getElementById('symptomInput').style.display = "block";
+        output.innerHTML = "";
+    } else if (choice === 'appointment') {
+        document.getElementById('appointmentForm').style.display = "block";
+        output.innerHTML = "";
+    } else {
+        output.innerHTML = "Please choose a valid option.";
+    }
+    }
+
+    function checkSymptom() {
+        const symptom = document.getElementById('symptom').value.toLowerCase();
+        let msg = "";
+
+        switch (symptom) {
+        case "fever":
+            msg = "You may have an infection. Rest, stay hydrated, and consult a doctor if it persists.";
+            break;
+        case "headache":
+            msg = "It could be due to stress or dehydration. Rest, hydrate, and consult if it continues.";
+            break;
+        case "cough":
+            msg = "Could be a cold or allergy. Drink warm fluids, and consult a doctor if it lasts a week.";
+            break;
+        default:
+            msg = "I'm not familiar with that symptom. Please consult a healthcare professional.";
+    }
+
+    document.getElementById('output').innerHTML = msg;
+    }
+
+    function bookAppointment() {
+        const name = document.getElementById('userName').value;
+        const date = document.getElementById('appointmentDate').value;
+        const doc = document.getElementById('specialist').value;
+
+    if (name && date && doc) {
+        document.getElementById('output').innerHTML =
+        `Thank you, ${name}. Your appointment with ${doc} has been scheduled for ${date}.`;
+    } else {
+        document.getElementById('output').innerHTML = "Please fill all appointment details.";
+    }
+    }
+</script>
+</body>
+</html>
